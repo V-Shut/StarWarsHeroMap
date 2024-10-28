@@ -1,0 +1,33 @@
+:root {
+	--font-color: #ffd700;
+}
+
+.main {
+	position: absolute;
+	top: 200px;
+	left: 70px;
+	right: 0;
+	bottom: 200px;
+	z-index: 2;
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(5, 1fr);
+	gap: 20px;
+}
+
+.hero {
+	color: var(--font-color);
+	font-size: 35px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 93px;
+}
+
+.hero:hover {
+  filter: drop-shadow(0 0 5px rgb(255, 255, 255));
+}
+
+
+
+

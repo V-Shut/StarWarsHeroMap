@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import "./App.css";
+import { startStarAnimation } from "./background_animation.js";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HeroList } from "./components/heroList";
+import { HeroDetails } from "./components/heroDetails";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	useEffect(() => {
+		startStarAnimation();
+	}, []);
+
+	return (
+		<Router>
+			<div className="App">
+				<div >
+					<img
+						src="img/yoda_logo.png"
+						className="yoda_logo"
+						alt="logo"
+					/>
+					<img
+						src="img/vader_logo.png"
+						className="vader_logo"
+						alt="logo"
+					/>
+
+					<Routes>
+						<Route
+							path="/"
+							element={<HeroList />}
+						/>
+						<Route
+							path="/:heroName"
+							element={<HeroDetails />}
+						/>
+					</Routes> 
+				</div>
+			</div>
+		</Router>
+	);
 }
 
 export default App;

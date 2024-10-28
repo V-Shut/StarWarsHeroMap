@@ -1,0 +1,32 @@
+:root {
+	--font-color: #ffd700;
+}
+
+.hero_container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.node {
+  background-color: transparent;
+  
+  border: 1px solid var(--font-color);
+  border-radius: 5px;
+  display: inline-block;
+  color: var(--font-color);
+  padding: 10px;
+  font-family: "Oxanium", sans-serif;
+  z-index: 1;
+}
+
+.edge {
+  stroke-width: 1px;
+  filter: blur(1px);
+}
+
+.edge:active {
+  stroke: var(--font-color);
+}
