@@ -47,11 +47,30 @@ type Starship = {
 	url: string;
 };
 
-const colors = ['yellow', 'green', 'blue', 'purple', 'orange', 'red']
+type Film = {
+	id: number;
+	title: string;
+	episode_id: number;
+	opening_crawl: string;
+	director: string;
+	producer: string;
+	release_date: string;
+	characters: number[];
+	planets: number[];
+	starships: number[];
+	vehicles: number[];
+	species: number[];
+	created: string;
+	edited: string;
+	url: string;
+};
+
+const colors = ["yellow", "green", "blue", "purple", "orange", "red"];
 
 export const HeroDetails = () => {
 	const [hero, setHero] = useState<Hero | undefined>(undefined);
 	const [starships, setStarships] = useState<Starship[]>([]);
+	const [episodes, setEpisodes] = useState<Film[]>([]);
 	const [nodes, setNodes] = useState<Node[]>([]);
 	const [edges, setEdges] = useState<Edge[]>([]);
 	const location = useLocation();
@@ -59,8 +78,13 @@ export const HeroDetails = () => {
 	useEffect(() => {
 		fetchHero();
 		fetchStarships();
+		fetchFilms();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	if (!!episodes.length) {
+		console.log(episodes);
+	}
 
 	useEffect(() => {
 		if (hero && starships) {
@@ -76,12 +100,14 @@ export const HeroDetails = () => {
 			};
 
 			newNodes.push(heroNode);
+      
+      hero.films.forEach((film, filmIndex) => {
+        const episode = episodes.find(el => el.episode_id === film)?.title;
 
-			hero.films.forEach((film, filmIndex) => {
 				newNodes.push({
 					id: `film-${film}`,
-					data: { label: `Episode ${film}` },
-					position: { x: 50 + filmIndex * 200, y: 400 },
+					data: { label: `Episode ${film}: ${episode}` },
+					position: { x: 100 + filmIndex * 200, y: 400 },
 					className: "node",
 				});
 
@@ -92,15 +118,16 @@ export const HeroDetails = () => {
 					className: "edge",
 				});
 
-        const starshipsInFilm = starships.filter((ship) =>
-          ship.films.includes(film) && hero.starships.includes(ship.id)
-        );
+				const starshipsInFilm = starships.filter(
+					(ship) =>
+						ship.films.includes(film) && hero.starships.includes(ship.id)
+				);
 
 				starshipsInFilm.forEach((ship, shipIndex) => {
 					newNodes.push({
 						id: `starship-${ship.id}`,
 						data: { label: ship.name },
-						position: { x: (filmIndex * 200), y: (shipIndex * 150) + 500 },
+						position: { x: filmIndex * 200 + 100, y: shipIndex * 150 + 500 },
 						className: "node",
 					});
 
@@ -108,8 +135,8 @@ export const HeroDetails = () => {
 						id: `edge-${ship.id}`,
 						source: `film-${film}`,
 						target: `starship-${ship.id}`,
-            className: "edge",
-            style: {stroke: colors[filmIndex]}
+						className: "edge",
+						style: { stroke: colors[filmIndex] },
 					});
 				});
 			});
@@ -118,6 +145,20 @@ export const HeroDetails = () => {
 			setEdges(newEdges);
 		}
 	}, [hero, starships]);
+
+	async function fetchFilms() {
+		const data = await fetch("https://sw-api.starnavi.io/films").then(
+			(response) => {
+				if (!response.ok) {
+					throw new Error("Error fetching episodes data");
+				}
+
+				return response.json();
+			}
+		);
+
+		setEpisodes(data.results);
+	}
 
 	async function fetchStarships() {
 		const starships = [];
@@ -162,8 +203,6 @@ export const HeroDetails = () => {
 	if (!hero) {
 		return <Loader />;
 	}
-
-	console.log(starships);
 
 	return (
 		<div className="hero_container">
