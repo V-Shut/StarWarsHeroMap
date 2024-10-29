@@ -26,15 +26,17 @@ type Hero = {
 export const HeroList = () => {
 	const [heroList, setHeroList] = useState<Hero[]>([]);
 	const [currPage, setCurrPage] = useState(1);
-
+  
 	// this constant is responsible for the number of elements displayed on one page
-	const [pageElements, _setPageElements] = useState(10);
+	const [pageElements, setPageElements] = useState(10);
 
 	// this constant is responsible for the number of pages
 	const pageQuantity = Array.from(
 		{ length: Math.ceil(heroList.length / pageElements) },
 		(_, index) => index + 1
-	);
+  );
+  
+
 
 	function redirect(id: number) {
 		window.location.href = `${id}`;
@@ -103,7 +105,7 @@ export const HeroList = () => {
 	}, [pageElements]);
 
 	useEffect(() => {
-		fetchHeroes();
+    fetchHeroes();
 	}, []);
 
 	return (

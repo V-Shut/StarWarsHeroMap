@@ -71,7 +71,7 @@ export const HeroDetails = () => {
 				id: "hero",
 				type: "input",
 				data: { label: hero.name },
-				position: { x: 0, y: 50 },
+				position: { x: 100, y: 200 },
 				className: "node",
 			};
 
@@ -81,7 +81,7 @@ export const HeroDetails = () => {
 				newNodes.push({
 					id: `film-${film}`,
 					data: { label: `Episode ${film}` },
-					position: { x: 50 + filmIndex * 200, y: 200 },
+					position: { x: 50 + filmIndex * 200, y: 400 },
 					className: "node",
 				});
 
@@ -92,15 +92,15 @@ export const HeroDetails = () => {
 					className: "edge",
 				});
 
-				const starshipsInFilm = starships.filter((ship) =>
-					ship.films.includes(film)
-				);
+        const starshipsInFilm = starships.filter((ship) =>
+          ship.films.includes(film) && hero.starships.includes(ship.id)
+        );
 
 				starshipsInFilm.forEach((ship, shipIndex) => {
 					newNodes.push({
 						id: `starship-${ship.id}`,
 						data: { label: ship.name },
-						position: { x: (filmIndex * 200), y: (shipIndex * 200) + 300 },
+						position: { x: (filmIndex * 200), y: (shipIndex * 150) + 500 },
 						className: "node",
 					});
 

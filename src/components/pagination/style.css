@@ -1,13 +1,13 @@
 .pagination {
 	position: absolute;
 	height: 50px;
-	bottom: 0;
-	right: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	bottom: 50px;
+	right: 70px;
+	left: 70px;
 	display: flex;
 	justify-content: center;
 	gap: 10px;
+  overflow: auto;
 }
 
 .nav_button {

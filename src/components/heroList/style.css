@@ -6,7 +6,7 @@
 	position: absolute;
 	top: 200px;
 	left: 70px;
-	right: 0;
+	right: 70px;
 	bottom: 200px;
 	z-index: 2;
 	display: grid;
@@ -26,6 +26,13 @@
 
 .hero:hover {
   filter: drop-shadow(0 0 5px rgb(255, 255, 255));
+}
+
+@media (max-width: 1350px) {
+  .hero {
+    font-size: 20px;
+    line-height: 60px;
+  }
 }
 
 
