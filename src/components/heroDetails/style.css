@@ -22,6 +22,10 @@
   z-index: 1;
 }
 
+.starship {
+  background-color: black;
+}
+
 .edge {
   stroke-width: 1px;
   filter: blur(1px);

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import "./App.css";
 import { startStarAnimation } from "./background_animation.js";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { HeroList } from "./components/heroList";
+import { HeroList } from "./components/heroesList";
 import { HeroDetails } from "./components/heroDetails";
 
 function App() {

@@ -4,6 +4,11 @@ import ReactFlow, { Edge, Node } from "reactflow";
 import "reactflow/dist/style.css";
 import "./style.css";
 import { Loader } from "../loader";
+import {
+	fetchAllFilms,
+	fetchAllStarships,
+	fetchHeroById,
+} from "../../api/fetch";
 
 type Hero = {
 	id: number;
@@ -65,7 +70,8 @@ type Film = {
 	url: string;
 };
 
-const colors = ["yellow", "green", "blue", "purple", "orange", "red"];
+// Predefined colors for edges between nodes
+const edgeColors = ["yellow", "green", "blue", "purple", "orange", "red"];
 
 export const HeroDetails = () => {
 	const [hero, setHero] = useState<Hero | undefined>(undefined);
@@ -76,18 +82,33 @@ export const HeroDetails = () => {
 	const location = useLocation();
 
 	useEffect(() => {
-		fetchHero();
-		fetchStarships();
-		fetchFilms();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		fetchData();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	if (!!episodes.length) {
-		console.log(episodes);
+	useEffect(() => {
+		createNodes();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hero, starships, episodes]);
+  
+  // Fetch the hero, starships, and films data from the API
+  async function fetchData() {
+		const id: string = location.pathname.split("").slice(1).join("");
+		try {
+			const heroData: Hero = await fetchHeroById(Number(id));
+			const starshipsData: Starship[] = await fetchAllStarships();
+			const filmsData: Film[] = await fetchAllFilms();
+			setHero(heroData);
+			setStarships(starshipsData);
+			setEpisodes(filmsData);
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		}
 	}
 
-	useEffect(() => {
-		if (hero && starships) {
+  // Create ReactFlow nodes and edges based on hero's films and starships
+	function createNodes() {
+		if (hero && !!starships.length) {
 			let newNodes: Node[] = [];
 			let newEdges: Edge[] = [];
 
@@ -100,13 +121,13 @@ export const HeroDetails = () => {
 			};
 
 			newNodes.push(heroNode);
-      
-      hero.films.forEach((film, filmIndex) => {
-        const episode = episodes.find(el => el.episode_id === film)?.title;
+
+			hero.films.forEach((film, filmIndex) => {
+				const episode = episodes.find((el) => el.id === film);
 
 				newNodes.push({
 					id: `film-${film}`,
-					data: { label: `Episode ${film}: ${episode}` },
+					data: { label: `Episode ${episode?.episode_id}: ${episode?.title}` },
 					position: { x: 100 + filmIndex * 200, y: 400 },
 					className: "node",
 				});
@@ -126,78 +147,26 @@ export const HeroDetails = () => {
 				starshipsInFilm.forEach((ship, shipIndex) => {
 					newNodes.push({
 						id: `starship-${ship.id}`,
-						data: { label: ship.name },
+						data: {
+							label: `${ship.name}: ${ship.starship_class.toUpperCase()}`,
+						},
 						position: { x: filmIndex * 200 + 100, y: shipIndex * 150 + 500 },
-						className: "node",
+						className: "node starship",
 					});
 
 					newEdges.push({
-						id: `edge-${ship.id}`,
+						id: `edge-${ship.name}-${shipIndex}`,
 						source: `film-${film}`,
 						target: `starship-${ship.id}`,
 						className: "edge",
-						style: { stroke: colors[filmIndex] },
+						style: { stroke: edgeColors[filmIndex] },
 					});
 				});
 			});
 
 			setNodes(newNodes);
 			setEdges(newEdges);
-		}
-	}, [hero, starships]);
-
-	async function fetchFilms() {
-		const data = await fetch("https://sw-api.starnavi.io/films").then(
-			(response) => {
-				if (!response.ok) {
-					throw new Error("Error fetching episodes data");
-				}
-
-				return response.json();
-			}
-		);
-
-		setEpisodes(data.results);
-	}
-
-	async function fetchStarships() {
-		const starships = [];
-		for (let i = 1; ; i++) {
-			const list = await fetch(
-				`https://sw-api.starnavi.io/starships/?page=${i}`
-			).then((response) => {
-				if (!response.ok) {
-					return;
-				}
-
-				return response.json();
-			});
-
-			if (list) {
-				starships.push(list.results);
-			} else {
-				break;
-			}
-		}
-
-		setStarships(starships.flat());
-	}
-
-	async function fetchHero() {
-		await fetch(
-			`https://sw-api.starnavi.io/people/${location.pathname
-				.split("")
-				.slice(1)
-				.join("")}`
-		)
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error("Error fetching hero data");
-				}
-
-				return response.json();
-			})
-			.then((data) => setHero(data));
+    }
 	}
 
 	if (!hero) {
