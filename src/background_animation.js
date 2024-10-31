@@ -14,7 +14,7 @@ export const startStarAnimation = () => {
     const star = document.createElement("div");
     const speed = 1000 * (Math.random() * maxDuration + 1);
     star.setAttribute("class", "star" + (3 - Math.floor(speed / 1000 / 8)));
-    universe.appendChild(star);
+    universe?.appendChild(star);
 
     star.animate(
       [

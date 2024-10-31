@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import "./App.css";
-import { startStarAnimation } from "./background_animation.js";
+import { startStarAnimation } from "./background_animation";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { HeroList } from "./components/heroesList";
+import { HeroesList } from "./components/heroesList";
 import { HeroDetails } from "./components/heroDetails";
 
 function App() {
@@ -11,33 +11,32 @@ function App() {
 	}, []);
 
 	return (
-		<Router>
-			<div className="App">
-				<div >
-					<img
-						src="img/yoda_logo.png"
-						className="yoda_logo"
-						alt="logo"
+		<div className="App">
+			<div
+				id="universe"
+				className="universe">
+				<img
+					src="img/yoda_logo.png"
+					className="yoda_logo"
+					alt="yoda_logo"
+				/>
+				<img
+					src="img/vader_logo.png"
+					className="vader_logo"
+					alt="vader_logo"
+				/>
+				<Routes>
+					<Route
+						path="/"
+						element={<HeroesList />}
 					/>
-					<img
-						src="img/vader_logo.png"
-						className="vader_logo"
-						alt="logo"
+					<Route
+						path="/:heroID"
+						element={<HeroDetails />}
 					/>
-
-					<Routes>
-						<Route
-							path="/"
-							element={<HeroList />}
-						/>
-						<Route
-							path="/:heroName"
-							element={<HeroDetails />}
-						/>
-					</Routes> 
-				</div>
+				</Routes>
 			</div>
-		</Router>
+		</div>
 	);
 }
 

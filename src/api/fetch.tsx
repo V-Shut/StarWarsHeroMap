@@ -49,16 +49,16 @@ export async function fetchAllStarships() {
     });
 
     if (list) {
-      starships.push(list.results);
+      starships.push(...list.results);
     } else {
       break;
     }
   }
   
-  return starships.flat();
+  return starships;
 }
 
-export 	async function fetchAllFilms() {
+export async function fetchAllFilms() {
   const data = await fetch("https://sw-api.starnavi.io/films").then(
     (response) => {
       if (!response.ok) {

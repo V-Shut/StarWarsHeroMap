@@ -14,7 +14,7 @@ export const Pagination: React.FC<Props> = ({
 	setCurrPage,
 }) => {
 	return (
-		<div className="pagination">
+		<div className="pagination" role="pagination">
 			{!!pageQuantity.length && (
 				<button
 					className="nav_button"
@@ -23,8 +23,8 @@ export const Pagination: React.FC<Props> = ({
 				</button>
 			)}
 			{pageQuantity.map((number) => (
-        <button
-          key={`nav-${number}`}
+				<button
+					key={`nav-${number}`}
 					className={`nav_button ${
 						number === currPage ? "choosed_button" : ""
 					}`}
@@ -35,7 +35,8 @@ export const Pagination: React.FC<Props> = ({
 			{!!pageQuantity.length && (
 				<button
 					className="nav_button"
-					onClick={() => changePage("next")}>
+					onClick={() => changePage("next")}
+					role="next">
 					Next
 				</button>
 			)}

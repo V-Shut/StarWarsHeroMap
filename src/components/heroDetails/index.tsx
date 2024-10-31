@@ -117,7 +117,8 @@ export const HeroDetails = () => {
 				type: "input",
 				data: { label: hero.name },
 				position: { x: 100, y: 200 },
-				className: "node",
+        className: "node",
+        role:'hero'
 			};
 
 			newNodes.push(heroNode);
@@ -174,7 +175,7 @@ export const HeroDetails = () => {
 	}
 
 	return (
-		<div className="hero_container">
+		<div className="hero_container" role="details">
 			<ReactFlow
 				nodes={nodes}
 				edges={edges}

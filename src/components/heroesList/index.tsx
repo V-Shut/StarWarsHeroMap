@@ -3,6 +3,7 @@ import "./style.css";
 import { Loader } from "../loader";
 import { Pagination } from "../pagination";
 import { fetchAllHeroes } from "../../api/fetch";
+import { Link } from "react-router-dom";
 
 type Hero = {
 	id: number;
@@ -24,15 +25,17 @@ type Hero = {
 	url: string;
 };
 
-export const HeroList = () => {
+export const HeroesList = () => {
 	const [heroList, setHeroesList] = useState<Hero[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 
-	// this constant is responsible for the number of elements displayed on one page
+	// This constant is responsible for the number of elements displayed on one page.
+	// There are some tests for this component, that doesn`t work after changing this value.
+	// Don`t change it
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [pageElements, _setPageElements] = useState(10);
 
-	// this constant is responsible for the number of pages
+	// This constant is responsible for the number of pages
 	const pageQuantity = Array.from(
 		{ length: Math.ceil(heroList.length / pageElements) },
 		(_, index) => index + 1
@@ -42,10 +45,6 @@ export const HeroList = () => {
 	useEffect(() => {
 		fetchData();
 	}, []);
-
-	function redirect(id: number) {
-		window.location.href = `${id}`;
-	}
 
 	// Ensure page navigation stays within valid boundaries
 	function changePage(direction: string) {
@@ -82,12 +81,12 @@ export const HeroList = () => {
 							index < currentPage * pageElements
 					)
 					.map((hero) => (
-						<div
+						<Link
 							key={hero.id}
-							className="hero"
-							onClick={() => redirect(hero.id)}>
-							{hero.name}
-						</div>
+							to={`${hero.id}`}
+							style={{ textDecoration: "none" }}>
+							<div className="hero">{hero.name}</div>
+						</Link>
 					))}
 			</div>
 			<Pagination
