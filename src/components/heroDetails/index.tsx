@@ -175,7 +175,8 @@ export const HeroDetails = () => {
 	}
 
 	return (
-		<div className="hero_container" role="details">
+    <div className="hero_container" role="details">
+      <div className="back_button" onClick={() => window.history.back()}>Back</div>
 			<ReactFlow
 				nodes={nodes}
 				edges={edges}

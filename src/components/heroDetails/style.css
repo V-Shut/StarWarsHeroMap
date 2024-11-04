@@ -34,3 +34,19 @@
 .edge:active {
   stroke: var(--font-color);
 }
+
+.back_button {
+  text-decoration: none;
+  color: black;
+  font-size: 30px;
+  font-weight: 600;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  cursor: pointer;
+  z-index: 3;
+  padding: 5px;
+  border: 1px solid var(--font-color);
+  border-radius: 15px;
+  background-color: var(--font-color);
+}

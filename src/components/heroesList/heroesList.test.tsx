@@ -1,9 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { HeroesList } from ".";
-import { fetchAllHeroes, fetchHeroById } from "../../api/fetch";
+import { fetchAllHeroes } from "../../api/fetch";
 import { MemoryRouter } from "react-router-dom";
 import App from "../../App";
-import { HeroDetails } from "../heroDetails";
 
 jest.mock("../../api/fetch", () => {
 	const actualFetchModule = jest.requireActual("../../api/fetch");

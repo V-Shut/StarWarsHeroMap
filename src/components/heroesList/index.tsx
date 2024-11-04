@@ -65,7 +65,7 @@ export const HeroesList = () => {
 		} catch (error) {
 			console.error("Error fetching data:", error);
 		}
-	}
+  }
 
 	if (!heroList.length) {
 		return <Loader />;
