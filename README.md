@@ -1,6 +1,7 @@
 # Star Wars Hero Map
 
 [DEMO](https://star-wars-map.vercel.app/)
+[Presentation](https://www.loom.com/share/0734408156354bc88e4e804566d7a2ad)
 
 ## Description of the project
 
